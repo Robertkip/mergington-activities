@@ -1,0 +1,12 @@
+# Each line is a path pattern followed by the team that owns it.
+# The last matching pattern wins, so the catch-all comes first.
+*             @mergington-high-school/maintainers
+/src/app.py   @mergington-high-school/backend
+/tests/       @mergington-high-school/backend
+/src/static/  @mergington-high-school/frontend
+
+# Maintainers own this file and the ruleset, so the protections cannot be
+# changed without them.
+/.github/     @mergington-high-school/maintainers
+/docs/        @mergington-high-school/maintainers
+/SECURITY.md  @mergington-high-school/maintainers
