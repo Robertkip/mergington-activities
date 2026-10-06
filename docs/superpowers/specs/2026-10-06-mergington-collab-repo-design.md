@@ -1,7 +1,7 @@
 # Mergington activities repo: collaboration setup
 
 Date: 2026-10-06
-Status: Awaiting review
+Status: Approved for implementation (see "Changes made while planning" at the end)
 
 ## Goal
 
@@ -38,6 +38,7 @@ intro-repo/
 ├── SECURITY.md
 ├── starter.md
 ├── requirements.txt
+├── .gitignore
 ├── src/
 │   ├── app.py
 │   └── static/
@@ -73,8 +74,8 @@ Deliberately minimal. The repository is the subject, not the app.
 - `GET /` redirects to `/static/index.html`. Files in src/static/ are served under `/static`.
 - The static page fetches `/activities` and shows each activity with its schedule and participants. Each activity has a sign-up form (one email field) that posts to the sign-up endpoint, shows the result message, and refreshes the list.
 - No database, no authentication, no persistence across restarts.
-- Tests (pytest with FastAPI's TestClient): listing returns the seeded activities; signing up adds the participant; a duplicate sign-up returns 400. A fixture restores the seed data before each test.
-- requirements.txt lists fastapi, uvicorn, httpx (needed by TestClient) and pytest, each pinned to an exact version that passes the tests when the files are built. Exact pins matter because Dependabot updates pinned versions.
+- Tests (pytest with FastAPI's TestClient): listing returns the seeded activities; signing up adds the participant; a duplicate sign-up returns 400; an unknown activity returns 404; `/` redirects to the page; the page is served. A fixture restores the seed data before each test.
+- requirements.txt lists fastapi, uvicorn, httpx2 (the package Starlette's TestClient now expects; plain httpx only produces a deprecation warning) and pytest, each pinned to an exact version that passes the tests. Exact pins matter because Dependabot updates pinned versions.
 - README.md says what the site is, how to run it and test it, and links to CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md and docs/github-setup.md.
 
 ### .github/rulesets/protect-main.json
@@ -93,7 +94,7 @@ CONTRIBUTING.md is short enough to read in a few minutes. Sections:
 1. Before you start: read the code of conduct; ask a maintainer to add you to the team for the area you will work on.
 2. Making a change: open or pick an issue; branch from `main` using `<your-name>/<short-description>`; keep commits small and focused; open a pull request using the template; address review comments; once approved, the author squash merges and deletes the branch.
 3. Running the site and tests locally (the same commands as README.md).
-4. Review: a pull request needs 1 approval, and an approval from the owning team of each area it touches (see CODEOWNERS). Authors cannot approve their own pull requests.
+4. Review: a pull request needs 1 approval, and an approval from the owning team of each area it touches. A table of areas and their owning teams, matching CODEOWNERS, sits here. Authors cannot approve their own pull requests.
 5. Getting help, and where to report security problems (SECURITY.md).
 
 Pull request template: summary; linked issue (`Closes #`); how it was tested; checklist (tests pass, docs updated if behavior changed, no secrets or personal data committed).
@@ -138,7 +139,7 @@ dependabot.yml: `version: 2`, one `pip` entry for directory `/` with a weekly sc
 ### docs/github-setup.md
 
 1. **Values to replace before pushing.** A table of each stand-in, what it defaults to, and where it appears: organization name and team slugs (CODEOWNERS), the conduct contact (CODE_OF_CONDUCT.md), the security contact and response times (SECURITY.md).
-2. **One-time setup, in order.** Create the three teams with at least two members each (authors cannot approve their own pull requests, so a one-person team cannot merge its own changes). Give each team Write access to the repository. Push. Import the ruleset and confirm it shows as active. Enable Dependabot alerts and Dependabot security updates. Enable private vulnerability reporting. Confirm GitHub shows no errors on CODEOWNERS.
+2. **One-time setup, in order.** Create the repository and push. Create the three teams with at least two members each, visible so they can be code owners (authors cannot approve their own pull requests, so a one-person team cannot merge its own changes). Give each team Write access to the repository. Import the ruleset and confirm it shows as active. Enable Dependabot alerts and Dependabot security updates. Enable private vulnerability reporting (GitHub documents it for public repositories only; for a private repository the email contact in SECURITY.md is the route). Confirm GitHub shows no errors on CODEOWNERS.
 3. **Check that it works.** A direct push to `main` is rejected. A force push is rejected. A pull request changing src/static/ requests review from the frontend team and cannot merge without it.
 4. **Personal vs organization.** A comparison covering permission levels, teams in CODEOWNERS, organization-level rulesets, and what happens to ownership when a teacher leaves.
 
@@ -161,3 +162,13 @@ Menu paths in step 2 and the facts in step 4 are checked against GitHub's curren
 ## Out of scope
 
 CI workflows, setup scripts, creating the organization or teams, pushing to a remote, persistence or authentication in the site, and styling beyond a basic readable page.
+
+## Changes made while planning
+
+These differ from the version reviewed on 2026-10-06. Each came from checking a fact the design depends on.
+
+- .gitignore is added to the layout so virtualenvs and caches stay out of git.
+- requirements.txt uses httpx2 instead of httpx. The installed Starlette marks httpx as deprecated for its TestClient and asks for httpx2. Starlette's own dependency metadata lists httpx2, and PyPI shows it is published by the author of httpx.
+- The site has six tests, not three. The 404 for an unknown activity, the root redirect and the static page are covered too, because the design requires those behaviors.
+- CONTRIBUTING.md includes a table of areas and owning teams.
+- docs/github-setup.md creates the repository first, because teams cannot be given access to a repository that does not exist. It also says that private vulnerability reporting is documented for public repositories only, that rulesets in private repositories need a paid plan, and that with no bypass list nobody can rename or delete `main`. It lists the GitHub documentation pages it was checked against.
