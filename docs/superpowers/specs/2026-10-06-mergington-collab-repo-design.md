@@ -172,3 +172,7 @@ These differ from the version reviewed on 2026-10-06. Each came from checking a 
 - The site has six tests, not three. The 404 for an unknown activity, the root redirect and the static page are covered too, because the design requires those behaviors.
 - CONTRIBUTING.md includes a table of areas and owning teams.
 - docs/github-setup.md creates the repository first, because teams cannot be given access to a repository that does not exist. It also says that private vulnerability reporting is documented for public repositories only, that rulesets in private repositories need a paid plan, and that with no bypass list nobody can rename or delete `main`. It lists the GitHub documentation pages it was checked against.
+
+## Changes requested during implementation
+
+- The activities page has a footer reading "Developed by Open source © 2026. All rights reserved." It was requested on 2026-10-06 after the design was approved.

@@ -69,3 +69,10 @@ def test_static_page_is_served():
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     assert 'id="activities-list"' in response.text
+
+
+def test_static_page_has_a_footer():
+    response = client.get("/static/index.html")
+
+    assert "<footer>" in response.text
+    assert "Developed by Open source &copy; 2026. All rights reserved." in response.text

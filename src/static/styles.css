@@ -9,6 +9,9 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   font-family: system-ui, sans-serif;
   line-height: 1.5;
@@ -28,7 +31,20 @@ header p {
   margin: 0;
 }
 
+footer {
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+  background: var(--accent);
+}
+
+footer p {
+  margin: 0;
+}
+
 main {
+  flex: 1;
+  width: 100%;
   max-width: 60rem;
   margin: 0 auto;
   padding: 1rem;
