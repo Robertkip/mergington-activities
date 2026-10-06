@@ -22,3 +22,10 @@ With the virtual environment active:
 ```bash
 python -m pytest
 ```
+
+## Collaborating
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) explains how to make and review a change.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) sets the ground rules for everyone who works here.
+- [SECURITY.md](SECURITY.md) explains how to report a vulnerability and how security updates are handled.
+- [docs/github-setup.md](docs/github-setup.md) lists the GitHub settings maintainers need to configure, and how personal and organization repositories differ.
