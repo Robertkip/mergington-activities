@@ -66,7 +66,7 @@ Every task's requirements include this section.
 - Produces: `POST /activities/{activity_name}/signup?email=<email>` returns 200 `{"message": "Signed up <email> for <activity_name>"}`, 404 `{"detail": "Activity not found"}` for an unknown activity, or 400 `{"detail": "Student is already signed up"}` for a repeat sign-up.
 - Produces: README.md with the sections "Run the site" and "Run the tests".
 
-- [ ] **Step 1: Create .gitignore and requirements.txt**
+- [x] **Step 1: Create .gitignore and requirements.txt**
 
 `.gitignore`:
 
@@ -85,7 +85,7 @@ pytest==9.1.1
 uvicorn==0.54.0
 ```
 
-- [ ] **Step 2: Create the virtualenv and install the dependencies**
+- [x] **Step 2: Create the virtualenv and install the dependencies**
 
 Run:
 
@@ -104,7 +104,7 @@ pytest==9.1.1
 uvicorn==0.54.0
 ```
 
-- [ ] **Step 3: Write the failing tests**
+- [x] **Step 3: Write the failing tests**
 
 Create `tests/test_app.py`:
 
@@ -167,13 +167,13 @@ def test_signup_for_an_unknown_activity_returns_404():
     assert response.json() == {"detail": "Activity not found"}
 ```
 
-- [ ] **Step 4: Run the tests to verify they fail**
+- [x] **Step 4: Run the tests to verify they fail**
 
 Run: `"$VENV/bin/python" -m pytest -q`
 
 Expected: a collection error, `ModuleNotFoundError: No module named 'src'`, and `1 error` in the summary. (`python -m pytest` rather than bare `pytest` puts the repository root on the import path, which is what makes `src.app` importable.)
 
-- [ ] **Step 5: Write the implementation**
+- [x] **Step 5: Write the implementation**
 
 Create `src/app.py`:
 
@@ -238,13 +238,13 @@ def signup_for_activity(activity_name: str, email: str):
     return {"message": f"Signed up {email} for {activity_name}"}
 ```
 
-- [ ] **Step 6: Run the tests to verify they pass**
+- [x] **Step 6: Run the tests to verify they pass**
 
 Run: `"$VENV/bin/python" -m pytest -v`
 
 Expected: `4 passed` and no warnings.
 
-- [ ] **Step 7: Write README.md**
+- [x] **Step 7: Write README.md**
 
 Create `README.md`:
 
@@ -275,7 +275,7 @@ python -m pytest
 ```
 ````
 
-- [ ] **Step 8: Check that the documented run command works**
+- [x] **Step 8: Check that the documented run command works**
 
 Run:
 
@@ -288,7 +288,7 @@ kill "$SERVER_PID"
 
 Expected: uvicorn's own log lines, then JSON beginning `{"Chess Club":{"description":"Learn strategies and compete`.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add .gitignore requirements.txt src/app.py tests/test_app.py README.md
@@ -311,7 +311,7 @@ git commit -m "Add activities API with tests" -m "Co-Authored-By: Claude Sonnet 
 - Produces: `GET /` redirects (307) to `/static/index.html`; every file in `src/static/` is served under `/static`.
 - Produces: the page contract that the frontend team owns: an element with id `activities-list` holding one `article.activity` per activity, and an element with id `message` showing the sign-up result.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Append to the end of `tests/test_app.py`:
 
@@ -333,13 +333,13 @@ def test_static_page_is_served():
     assert 'id="activities-list"' in response.text
 ```
 
-- [ ] **Step 2: Run the tests to verify the new ones fail**
+- [x] **Step 2: Run the tests to verify the new ones fail**
 
 Run: `"$VENV/bin/python" -m pytest -q`
 
 Expected: `2 failed, 4 passed`, with `assert 404 == 307` for `test_root_redirects_to_the_static_page` and `assert 404 == 200` for `test_static_page_is_served`.
 
-- [ ] **Step 3: Create the static files**
+- [x] **Step 3: Create the static files**
 
 `src/static/index.html`:
 
@@ -557,7 +557,7 @@ async function signUp(name, email) {
 loadActivities().catch(() => showMessage("Could not load activities. Please try again.", true));
 ```
 
-- [ ] **Step 4: Serve the page from the app**
+- [x] **Step 4: Serve the page from the app**
 
 Make three edits to `src/app.py`.
 
@@ -594,13 +594,13 @@ Add this line at the very end of the file, after the `signup_for_activity` funct
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 ```
 
-- [ ] **Step 5: Run the tests to verify they pass**
+- [x] **Step 5: Run the tests to verify they pass**
 
 Run: `"$VENV/bin/python" -m pytest -v`
 
 Expected: `6 passed` and no warnings.
 
-- [ ] **Step 6: Check the running page**
+- [x] **Step 6: Check the running page**
 
 Run:
 
@@ -633,7 +633,7 @@ Then check the page in a browser. Start the server again with `"$VENV/bin/uvicor
 
 Stop the server with Ctrl+C.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/static src/app.py tests/test_app.py
@@ -651,7 +651,7 @@ git commit -m "Add static activities page" -m "Co-Authored-By: Claude Sonnet 5.5
 **Interfaces:**
 - Produces: a ruleset named `protect-main`, imported by hand as described in Task 8. The `pull_request` rule's `require_code_owner_review` relies on `.github/CODEOWNERS` from Task 4.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 Create `$CHECKS/check_ruleset.py`. The required parameter names come from GitHub's REST API schema for the `pull_request` rule.
 
@@ -687,13 +687,13 @@ assert params["required_review_thread_resolution"] is True
 print("ruleset ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `python3 -I "$CHECKS/check_ruleset.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `.github/rulesets/protect-main.json`.
 
-- [ ] **Step 3: Create the ruleset**
+- [x] **Step 3: Create the ruleset**
 
 Create `.github/rulesets/protect-main.json`:
 
@@ -726,13 +726,13 @@ Create `.github/rulesets/protect-main.json`:
 }
 ```
 
-- [ ] **Step 4: Run the check to verify it passes**
+- [x] **Step 4: Run the check to verify it passes**
 
 Run: `python3 -I "$CHECKS/check_ruleset.py"`
 
 Expected: `ruleset ok`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add .github/rulesets/protect-main.json
@@ -751,7 +751,7 @@ git commit -m "Add branch ruleset for the default branch" -m "Co-Authored-By: Cl
 - Consumes: the team names from Global Constraints.
 - Produces: `.github/CODEOWNERS` assigning `src/app.py` and `tests/` to `@mergington-high-school/backend`, `src/static/` to `@mergington-high-school/frontend`, and everything else, including `.github/`, `docs/` and `SECURITY.md`, to `@mergington-high-school/maintainers`. Task 8 documents these stand-in names. Task 9 checks that each pattern matches a real path.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 Create `$CHECKS/check_codeowners.py`:
 
@@ -784,13 +784,13 @@ assert found == expected, found
 print("codeowners ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `python3 -I "$CHECKS/check_codeowners.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `.github/CODEOWNERS`.
 
-- [ ] **Step 3: Create CODEOWNERS**
+- [x] **Step 3: Create CODEOWNERS**
 
 Create `.github/CODEOWNERS`:
 
@@ -809,13 +809,13 @@ Create `.github/CODEOWNERS`:
 /SECURITY.md  @mergington-high-school/maintainers
 ```
 
-- [ ] **Step 4: Run the check to verify it passes**
+- [x] **Step 4: Run the check to verify it passes**
 
 Run: `python3 -I "$CHECKS/check_codeowners.py"`
 
 Expected: `codeowners ok`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add .github/CODEOWNERS
@@ -838,7 +838,7 @@ git commit -m "Add CODEOWNERS" -m "Co-Authored-By: Claude Sonnet 5.5 <noreply@an
 - Consumes: the ownership table from Task 4 and the run and test commands from Task 1.
 - Produces: CONTRIBUTING.md, which links to CODE_OF_CONDUCT.md (Task 6), SECURITY.md (Task 7) and docs/github-setup.md (Task 8). Those links resolve once those tasks are done, and Task 9 checks them.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 PyYAML is installed only for this check and is not added to requirements.txt.
 
@@ -879,13 +879,13 @@ for heading in (
 print("contributing files ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `"$VENV/bin/python" "$CHECKS/check_contributing.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `.github/ISSUE_TEMPLATE/bug_report.md`.
 
-- [ ] **Step 3: Create CONTRIBUTING.md**
+- [x] **Step 3: Create CONTRIBUTING.md**
 
 ````markdown
 # Contributing
@@ -941,7 +941,7 @@ Run the tests before you open a pull request.
 Ask in your pull request or issue, or ask a maintainer. To report a security problem, follow [SECURITY.md](SECURITY.md) instead of opening a public issue. Maintainers can find how the repository's settings are configured in [docs/github-setup.md](docs/github-setup.md).
 ````
 
-- [ ] **Step 4: Create the pull request template**
+- [x] **Step 4: Create the pull request template**
 
 `.github/pull_request_template.md`:
 
@@ -967,7 +967,7 @@ Closes #
 - [ ] No secrets or personal data are committed
 ```
 
-- [ ] **Step 5: Create the issue templates**
+- [x] **Step 5: Create the issue templates**
 
 `.github/ISSUE_TEMPLATE/bug_report.md`:
 
@@ -1019,13 +1019,13 @@ assignees: ""
 blank_issues_enabled: false
 ```
 
-- [ ] **Step 6: Run the check to verify it passes**
+- [x] **Step 6: Run the check to verify it passes**
 
 Run: `"$VENV/bin/python" "$CHECKS/check_contributing.py"`
 
 Expected: `contributing files ok`
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add CONTRIBUTING.md .github/pull_request_template.md .github/ISSUE_TEMPLATE
@@ -1044,7 +1044,7 @@ git commit -m "Add contribution procedure and templates" -m "Co-Authored-By: Cla
 - Consumes: the conduct contact `conduct@mergington-high-school.example` from Global Constraints.
 - Produces: CODE_OF_CONDUCT.md, the Contributor Covenant 2.1 with that contact filled in. Task 8 documents the stand-in contact.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 Create `$CHECKS/check_conduct.py`:
 
@@ -1063,13 +1063,13 @@ for heading in ("## Our Pledge", "## Our Standards", "## Enforcement Guidelines"
 print("code of conduct ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `python3 -I "$CHECKS/check_conduct.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `CODE_OF_CONDUCT.md`.
 
-- [ ] **Step 3: Download the official text into a fresh directory outside the repository**
+- [x] **Step 3: Download the official text into a fresh directory outside the repository**
 
 Downloaded files are untrusted data. Keep this one in its own new directory, read it, and only then copy it in.
 
@@ -1086,7 +1086,7 @@ echo "$DL"
 
 Expected: `1`, `1`, `4` and then the directory path. The three counts are: one contact placeholder, one attribution line naming version 2.1, and the four enforcement guideline headings. If any count differs, the upstream text has changed: stop and read the file before using it.
 
-- [ ] **Step 4: Create CODE_OF_CONDUCT.md with the contact filled in**
+- [x] **Step 4: Create CODE_OF_CONDUCT.md with the contact filled in**
 
 Use the directory path printed in Step 3 as `$DL`. The `sed` call fills in the contact and drops the file's leading blank line.
 
@@ -1096,13 +1096,13 @@ Run:
 sed -e 's/\[INSERT CONTACT METHOD\]/conduct@mergington-high-school.example/' -e '1{/^$/d}' "$DL/code_of_conduct.md" > CODE_OF_CONDUCT.md
 ```
 
-- [ ] **Step 5: Run the check to verify it passes**
+- [x] **Step 5: Run the check to verify it passes**
 
 Run: `python3 -I "$CHECKS/check_conduct.py"`
 
 Expected: `code of conduct ok`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add CODE_OF_CONDUCT.md
@@ -1122,7 +1122,7 @@ git commit -m "Add code of conduct (Contributor Covenant 2.1)" -m "Co-Authored-B
 - Consumes: the security contact and the 3 and 5 business day response times from Global Constraints, and the maintainers' ownership of `requirements.txt` through the default rule in `.github/CODEOWNERS` (Task 4).
 - Produces: SECURITY.md, which links to docs/github-setup.md (Task 8), and a Dependabot configuration for pip. Task 8 documents the stand-in contact and response times.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 PyYAML is installed only for this check and is not added to requirements.txt.
 
@@ -1161,13 +1161,13 @@ for value in ("security@mergington-high-school.example", "3 business days", "5 b
 print("security files ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `"$VENV/bin/python" "$CHECKS/check_security.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `.github/dependabot.yml`.
 
-- [ ] **Step 3: Create dependabot.yml**
+- [x] **Step 3: Create dependabot.yml**
 
 `.github/dependabot.yml`:
 
@@ -1180,7 +1180,7 @@ updates:
       interval: "weekly"
 ```
 
-- [ ] **Step 4: Create SECURITY.md**
+- [x] **Step 4: Create SECURITY.md**
 
 ```markdown
 # Security policy
@@ -1212,13 +1212,13 @@ Include what you found, where you found it, and the steps to reproduce it if you
 5. **Timing.** Security update pull requests are reviewed within 5 business days.
 ```
 
-- [ ] **Step 5: Run the check to verify it passes**
+- [x] **Step 5: Run the check to verify it passes**
 
 Run: `"$VENV/bin/python" "$CHECKS/check_security.py"`
 
 Expected: `security files ok`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add SECURITY.md .github/dependabot.yml
@@ -1237,7 +1237,7 @@ git commit -m "Add security policy and Dependabot configuration" -m "Co-Authored
 - Consumes: every stand-in value from Tasks 4, 6 and 7 (organization and team names, the two contacts, the 3 and 5 business day response times), and the ruleset file from Task 3.
 - Produces: docs/github-setup.md, which README.md links to in Task 9.
 
-- [ ] **Step 1: Write the check**
+- [x] **Step 1: Write the check**
 
 Create `$CHECKS/check_setup_doc.py`:
 
@@ -1273,13 +1273,13 @@ for value, name in stand_ins.items():
 print("setup guide ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `python3 -I "$CHECKS/check_setup_doc.py"`
 
 Expected: a traceback ending in `FileNotFoundError` for `docs/github-setup.md`.
 
-- [ ] **Step 3: Create docs/github-setup.md**
+- [x] **Step 3: Create docs/github-setup.md**
 
 ````markdown
 # GitHub setup
@@ -1359,13 +1359,13 @@ Checked against GitHub's documentation on 2026-10-06:
 - [Configuring private vulnerability reporting for a repository](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/configuring-private-vulnerability-reporting-for-a-repository)
 ````
 
-- [ ] **Step 4: Run the check to verify it passes**
+- [x] **Step 4: Run the check to verify it passes**
 
 Run: `python3 -I "$CHECKS/check_setup_doc.py"`
 
 Expected: `setup guide ok`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/github-setup.md
@@ -1384,7 +1384,7 @@ git commit -m "Add GitHub setup guide" -m "Co-Authored-By: Claude Sonnet 5.5 <no
 - Consumes: CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md and docs/github-setup.md from Tasks 5 to 8, and `.github/CODEOWNERS` from Task 4.
 - Produces: the finished repository. This task also runs the checks that only make sense across files.
 
-- [ ] **Step 1: Write the whole-repository check**
+- [x] **Step 1: Write the whole-repository check**
 
 Create `$CHECKS/check_repo.py`:
 
@@ -1431,13 +1431,13 @@ for name in ("CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "docs/githu
 print("repository checks ok")
 ```
 
-- [ ] **Step 2: Run the check to verify it fails**
+- [x] **Step 2: Run the check to verify it fails**
 
 Run: `python3 -I "$CHECKS/check_repo.py"`
 
 Expected: an `AssertionError` saying `README.md does not link to CONTRIBUTING.md`. Steps 1 to 3 of the check pass because every other file exists after Tasks 1 to 8.
 
-- [ ] **Step 3: Add the Collaborating section to README.md**
+- [x] **Step 3: Add the Collaborating section to README.md**
 
 Append to the end of `README.md`:
 
@@ -1451,7 +1451,7 @@ Append to the end of `README.md`:
 - [docs/github-setup.md](docs/github-setup.md) lists the GitHub settings maintainers need to configure, and how personal and organization repositories differ.
 ```
 
-- [ ] **Step 4: Run the whole-repository check and the test suite**
+- [x] **Step 4: Run the whole-repository check and the test suite**
 
 Run:
 
@@ -1462,14 +1462,14 @@ python3 -I "$CHECKS/check_repo.py"
 
 Expected: `repository checks ok`, then `6 passed`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add README.md
 git commit -m "Link the collaboration documents from the README" -m "Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
 
-- [ ] **Step 6: Confirm the working tree is clean**
+- [x] **Step 6: Confirm the working tree is clean**
 
 Run: `git status --short && git log --oneline`
 
@@ -1489,7 +1489,7 @@ Expected: no output from `git status --short`, then the commit list, with the ne
 - Consumes: `client` and the static page from Tasks 1 and 2.
 - Produces: a `<footer>` in `/static/index.html` reading "Developed by Open source © 2026. All rights reserved."
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to the end of `tests/test_app.py`:
 
@@ -1503,13 +1503,13 @@ def test_static_page_has_a_footer():
     assert "Developed by Open source &copy; 2026. All rights reserved." in response.text
 ```
 
-- [ ] **Step 2: Run the tests to verify the new one fails**
+- [x] **Step 2: Run the tests to verify the new one fails**
 
 Run: `"$VENV/bin/python" -m pytest -q`
 
 Expected: `1 failed, 6 passed`, with `assert '<footer>' in ...` for `test_static_page_has_a_footer`.
 
-- [ ] **Step 3: Add the footer to the page**
+- [x] **Step 3: Add the footer to the page**
 
 In `src/static/index.html`, replace:
 
@@ -1528,7 +1528,7 @@ with:
   <script src="app.js"></script>
 ```
 
-- [ ] **Step 4: Style the footer**
+- [x] **Step 4: Style the footer**
 
 Make three edits to `src/static/styles.css`.
 
@@ -1588,17 +1588,17 @@ footer p {
 }
 ```
 
-- [ ] **Step 5: Run the tests to verify they pass**
+- [x] **Step 5: Run the tests to verify they pass**
 
 Run: `"$VENV/bin/python" -m pytest -v`
 
 Expected: `7 passed` and no warnings.
 
-- [ ] **Step 6: Check the page in a browser**
+- [x] **Step 6: Check the page in a browser**
 
 Start the server with `"$VENV/bin/uvicorn" src.app:app --port 8765`, open http://127.0.0.1:8765/ and confirm the footer reads "Developed by Open source © 2026. All rights reserved." at the bottom of the page, and the activity cards are still laid out in a multi-column grid. Stop the server with Ctrl+C.
 
-- [ ] **Step 7: Record the change in the spec**
+- [x] **Step 7: Record the change in the spec**
 
 At the end of `docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.md`, add:
 
@@ -1609,7 +1609,7 @@ At the end of `docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.m
 - The activities page has a footer reading "Developed by Open source © 2026. All rights reserved." It was requested on 2026-10-06 after the design was approved.
 ```
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/static tests/test_app.py docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.md
