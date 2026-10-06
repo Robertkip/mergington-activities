@@ -54,3 +54,18 @@ def test_signup_for_an_unknown_activity_returns_404():
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Activity not found"}
+
+
+def test_root_redirects_to_the_static_page():
+    response = client.get("/", follow_redirects=False)
+
+    assert response.status_code == 307
+    assert response.headers["location"] == "/static/index.html"
+
+
+def test_static_page_is_served():
+    response = client.get("/static/index.html")
+
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert 'id="activities-list"' in response.text

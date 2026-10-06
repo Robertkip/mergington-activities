@@ -1,5 +1,9 @@
 """Mergington High School extracurricular activities API."""
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Mergington High School Activities")
 
@@ -38,6 +42,12 @@ activities = {
 }
 
 
+@app.get("/")
+def root():
+    """Send visitors to the activities page."""
+    return RedirectResponse(url="/static/index.html")
+
+
 @app.get("/activities")
 def get_activities():
     """Return every activity with its description, schedule and participants."""
@@ -56,3 +66,6 @@ def signup_for_activity(activity_name: str, email: str):
 
     participants.append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
