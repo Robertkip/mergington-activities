@@ -1474,3 +1474,144 @@ git commit -m "Link the collaboration documents from the README" -m "Co-Authored
 Run: `git status --short && git log --oneline`
 
 Expected: no output from `git status --short`, then the commit list, with the newest commit being "Link the collaboration documents from the README".
+
+---
+
+### Task 10: Page footer (added at the user's request during execution)
+
+**Files:**
+- Modify: `src/static/index.html` (add a footer element)
+- Modify: `src/static/styles.css` (keep the footer at the bottom of the page, and style it)
+- Modify: `tests/test_app.py` (one new test at the end)
+- Modify: `docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.md` (record the change)
+
+**Interfaces:**
+- Consumes: `client` and the static page from Tasks 1 and 2.
+- Produces: a `<footer>` in `/static/index.html` reading "Developed by Open source © 2026. All rights reserved."
+
+- [ ] **Step 1: Write the failing test**
+
+Append to the end of `tests/test_app.py`:
+
+```python
+
+
+def test_static_page_has_a_footer():
+    response = client.get("/static/index.html")
+
+    assert "<footer>" in response.text
+    assert "Developed by Open source &copy; 2026. All rights reserved." in response.text
+```
+
+- [ ] **Step 2: Run the tests to verify the new one fails**
+
+Run: `"$VENV/bin/python" -m pytest -q`
+
+Expected: `1 failed, 6 passed`, with `assert '<footer>' in ...` for `test_static_page_has_a_footer`.
+
+- [ ] **Step 3: Add the footer to the page**
+
+In `src/static/index.html`, replace:
+
+```html
+  </main>
+  <script src="app.js"></script>
+```
+
+with:
+
+```html
+  </main>
+  <footer>
+    <p>Developed by Open source &copy; 2026. All rights reserved.</p>
+  </footer>
+  <script src="app.js"></script>
+```
+
+- [ ] **Step 4: Style the footer**
+
+Make three edits to `src/static/styles.css`.
+
+Replace the start of the `body` rule:
+
+```css
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+```
+
+with:
+
+```css
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+```
+
+Replace the `main` rule:
+
+```css
+main {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+```
+
+with (the `width: 100%` keeps the card grid full width inside the flex column):
+
+```css
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+```
+
+Insert this after the `header h1, header p` rule:
+
+```css
+footer {
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+  background: var(--accent);
+}
+
+footer p {
+  margin: 0;
+}
+```
+
+- [ ] **Step 5: Run the tests to verify they pass**
+
+Run: `"$VENV/bin/python" -m pytest -v`
+
+Expected: `7 passed` and no warnings.
+
+- [ ] **Step 6: Check the page in a browser**
+
+Start the server with `"$VENV/bin/uvicorn" src.app:app --port 8765`, open http://127.0.0.1:8765/ and confirm the footer reads "Developed by Open source © 2026. All rights reserved." at the bottom of the page, and the activity cards are still laid out in a multi-column grid. Stop the server with Ctrl+C.
+
+- [ ] **Step 7: Record the change in the spec**
+
+At the end of `docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.md`, add:
+
+```markdown
+
+## Changes requested during implementation
+
+- The activities page has a footer reading "Developed by Open source © 2026. All rights reserved." It was requested on 2026-10-06 after the design was approved.
+```
+
+- [ ] **Step 8: Commit**
+
+```bash
+git add src/static tests/test_app.py docs/superpowers/specs/2026-10-06-mergington-collab-repo-design.md
+git commit -m "Add page footer" -m "Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
+```
