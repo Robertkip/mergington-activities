@@ -32,6 +32,9 @@ header p {
 }
 
 footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
   padding: 1rem;
   text-align: center;
   color: #fff;
@@ -40,6 +43,7 @@ footer {
 
 footer p {
   margin: 0;
+  color: #fff;
 }
 
 main {

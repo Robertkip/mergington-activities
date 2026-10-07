@@ -75,4 +75,17 @@ def test_static_page_has_a_footer():
     response = client.get("/static/index.html")
 
     assert "<footer>" in response.text
-    assert "Developed by Open source &copy; 2026. All rights reserved." in response.text
+    footer = response.text.split("<footer>")[1].split("</footer>")[0]
+    assert "Open source" in footer
+    assert "&copy; 2026. All rights reserved." in footer
+
+
+def test_footer_is_white_and_sticks_to_the_bottom():
+    css = client.get("/static/styles.css").text
+
+    footer_rule = css.split("footer {")[1].split("}")[0]
+    assert "position: sticky;" in footer_rule
+    assert "bottom: 0;" in footer_rule
+    assert "color: #fff;" in footer_rule
+    footer_text_rule = css.split("footer p {")[1].split("}")[0]
+    assert "color: #fff;" in footer_text_rule
